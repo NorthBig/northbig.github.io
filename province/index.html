@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>China Discovery — Explore Amazing Destinations in China</title>
+  <title>China Discovery</title>
   <meta property="og:title" content="China Discovery">
-  <meta property="og:description" content="Explore 400+ amazing destinations across China — offline, no roaming needed.">
+  <meta property="og:description" content="Explore 400+ amazing destinations across China — works offline, no roaming needed.">
   <meta property="og:image" content="https://northbig.github.io/og-image.jpg">
+  <meta property="og:site_name" content="China Discovery">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -36,7 +37,6 @@
       padding: 14px 20px; font-size: 16px; font-weight: 600;
     }
     .hint { font-size: 12px; color: #aaa; margin-top: 16px; }
-    /* WeChat tip overlay */
     #wechat-tip {
       display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.7); z-index: 100;
@@ -63,12 +63,11 @@
     <div class="icon">🏔️</div>
     <h1>China Discovery</h1>
     <p>Explore China's most amazing destinations — offline, no roaming needed.</p>
-    <button class="btn-open" id="btn-open" onclick="openApp()">Open in China Discovery</button>
-    <a class="btn-store" id="btn-store" href="https://apps.apple.com/app/id6745056635">Download on the App Store</a>
+    <button class="btn-open" onclick="openApp()">Open in China Discovery</button>
+    <a class="btn-store" href="https://apps.apple.com/app/id6745056635">Download on the App Store</a>
     <p class="hint" id="hint-text"></p>
   </div>
 
-  <!-- WeChat guidance overlay -->
   <div id="wechat-tip">
     <div class="bubble">
       点击右上角 <strong>···</strong>，选择<strong>在浏览器中打开</strong>，即可直接进入 China Discovery App。
@@ -77,25 +76,19 @@
   </div>
 
   <script>
-    // Parse spot/city/province id from URL path
     var pathParts = location.pathname.split('/').filter(Boolean);
-    var section = pathParts[0]; // "spot", "city", "province"
+    var section = pathParts[0];
     var itemId  = pathParts[1] || '';
-
     var isWeChat = /MicroMessenger/i.test(navigator.userAgent);
     var isIOS    = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
     function openApp() {
       if (isWeChat) {
-        // WeChat blocks Universal Links; show "open in browser" guidance
         document.getElementById('wechat-tip').style.display = 'flex';
         return;
       }
       if (isIOS && itemId) {
-        // Try custom URL scheme (works when app is installed)
-        var scheme = 'chinadiscovery://' + section + '/' + itemId;
-        location.href = scheme;
-        // Fallback to App Store after short delay if app not installed
+        location.href = 'chinadiscovery://' + section + '/' + itemId;
         setTimeout(function() {
           location.href = 'https://apps.apple.com/app/id6745056635';
         }, 1500);
@@ -104,7 +97,6 @@
       }
     }
 
-    // Set hint text
     if (isWeChat) {
       document.getElementById('hint-text').textContent =
         'In WeChat: tap ··· → Open in Browser to launch the app.';

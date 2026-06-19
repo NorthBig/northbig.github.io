@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["NZPWN6GY6C.com.summerhiker.travelchina"],
+        "components": [
+          { "/": "/spot/*" },
+          { "/": "/city/*" },
+          { "/": "/province/*" }
+        ]
+      }
+    ]
+  }
+}

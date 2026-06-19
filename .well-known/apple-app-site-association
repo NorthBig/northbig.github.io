@@ -6,7 +6,8 @@
         "components": [
           { "/": "/spot/*" },
           { "/": "/city/*" },
-          { "/": "/province/*" }
+          { "/": "/province/*" },
+          { "/": "/review/*" }
         ]
       }
     ]

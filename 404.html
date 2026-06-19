@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>China Discovery</title>
+  <meta property="og:title" content="China Discovery">
+  <meta property="og:description" content="Explore 400+ amazing destinations across China — works offline, no roaming needed.">
+  <meta property="og:image" content="https://northbig.github.io/og-image.jpg">
+  <meta property="og:site_name" content="China Discovery">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      background: #f2f2f7;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh; padding: 24px;
+    }
+    .card {
+      background: white; border-radius: 20px;
+      padding: 40px 32px; max-width: 360px; width: 100%;
+      text-align: center; box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .icon { font-size: 56px; margin-bottom: 16px; }
+    h1 { font-size: 24px; font-weight: 700; color: #1d1d1f; margin-bottom: 8px; }
+    p  { font-size: 15px; color: #6e6e73; line-height: 1.5; margin-bottom: 24px; }
+    .btn-open {
+      display: block; background: #1a73e8; color: white;
+      text-decoration: none; border-radius: 12px;
+      padding: 14px 20px; font-size: 16px; font-weight: 600;
+      margin-bottom: 12px; cursor: pointer; border: none; width: 100%;
+    }
+    .btn-store {
+      display: block; background: #000; color: white;
+      text-decoration: none; border-radius: 12px;
+      padding: 14px 20px; font-size: 16px; font-weight: 600;
+    }
+    .hint { font-size: 12px; color: #aaa; margin-top: 16px; }
+    #wechat-tip {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7); z-index: 100;
+      align-items: flex-start; justify-content: flex-end; padding: 20px;
+    }
+    #wechat-tip .bubble {
+      background: white; border-radius: 12px; padding: 20px;
+      max-width: 260px; font-size: 14px; line-height: 1.6; color: #333;
+      position: relative; margin-top: 60px;
+    }
+    #wechat-tip .bubble::before {
+      content: "▲"; position: absolute; top: -18px; right: 24px;
+      color: white; font-size: 18px;
+    }
+    #wechat-tip .close-tip {
+      margin-top: 12px; background: #1a73e8; color: white;
+      border: none; border-radius: 8px; padding: 8px 16px;
+      font-size: 14px; cursor: pointer; width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">🏔️</div>
+    <h1>China Discovery</h1>
+    <p>Explore China's most amazing destinations — offline, no roaming needed.</p>
+    <button class="btn-open" onclick="openApp()">Open in China Discovery</button>
+    <a class="btn-store" href="https://apps.apple.com/app/id6745056635">Download on the App Store</a>
+    <p class="hint" id="hint-text"></p>
+  </div>
+
+  <div id="wechat-tip">
+    <div class="bubble">
+      点击右上角 <strong>···</strong>，选择<strong>在浏览器中打开</strong>，即可直接进入 China Discovery App。
+      <button class="close-tip" onclick="document.getElementById('wechat-tip').style.display='none'">我知道了</button>
+    </div>
+  </div>
+
+  <script>
+    var pathParts = location.pathname.split('/').filter(Boolean);
+    var section = pathParts[0];
+    var itemId  = pathParts[1] || '';
+    var isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    var isIOS    = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    function openApp() {
+      if (isWeChat) {
+        document.getElementById('wechat-tip').style.display = 'flex';
+        return;
+      }
+      if (isIOS && itemId) {
+        location.href = 'chinadiscovery://' + section + '/' + itemId;
+        setTimeout(function() {
+          location.href = 'https://apps.apple.com/app/id6745056635';
+        }, 1500);
+      } else {
+        location.href = 'https://apps.apple.com/app/id6745056635';
+      }
+    }
+
+    if (isWeChat) {
+      document.getElementById('hint-text').textContent =
+        'In WeChat: tap ··· → Open in Browser to launch the app.';
+    } else if (isIOS) {
+      document.getElementById('hint-text').textContent =
+        'Tap "Open in China Discovery" if you already have the app installed.';
+    }
+  </script>
+</body>
+</html>
